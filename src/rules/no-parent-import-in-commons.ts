@@ -30,6 +30,20 @@ export const RULE: Rule.RuleModule = {
     },
   },
   create: (context) => {
-    return {};
+    const filename = context.getFilename();
+    if(!isFileInCommonsDir(filename)) return {};
+    return {
+      ImportDeclaration: (node) => {
+        const value = node.source.value;
+        if(typeof value !== "string") return;
+
+        if(includesParentPath(value)) {
+          context.report({
+            message: "共通ディレクトリでは親から参照をしない",
+            node,
+          });
+        }
+      },
+    };
   },
 };
