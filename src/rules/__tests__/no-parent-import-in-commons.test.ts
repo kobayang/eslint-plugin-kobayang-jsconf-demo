@@ -8,21 +8,30 @@ const tester = new RuleTester({
 tester.run(RULE_NAME, RULE, {
   valid: [
     {
-      code: `import Module from "module"`,
+      code: `import Module from "file"`,
       filename: "/commons/file.ts",
     },
     {
-      code: `import Module from "./module"`,
+      code: `import Module from "./file"`,
       filename: "/commons/file.ts",
     },
     {
-      code: `import Module from "../module"`,
+      code: `import Module from "../file"`,
       filename: "/no-commons/file.ts",
     }
   ],
   invalid: [
     {
-      code: `import Module from "../module"`,
+      code: `import Module from "../file"`,
+      filename: "/commons/file.ts",
+      errors: [
+        {
+          message: "共通ディレクトリでは親から参照をしない",
+        }
+      ]
+    },
+    {
+      code: `import Module from "../dir/file"`,
       filename: "/commons/file.ts",
       errors: [
         {
