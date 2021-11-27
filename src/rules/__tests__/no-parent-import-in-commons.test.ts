@@ -9,9 +9,11 @@ tester.run(RULE_NAME, RULE, {
   valid: [
     {
       code: `import Module from "module"`,
+      filename: "/commons/file.ts",
     },
     {
       code: `import Module from "./module"`,
+      filename: "/commons/file.ts",
     },
     {
       code: `import Module from "../module"`,
